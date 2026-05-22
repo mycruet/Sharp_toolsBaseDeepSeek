@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>善器物联数智化赋能平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #131820;
+            --bg-card: #1a1f2b;
+            --bg-input: #0d1117;
+            --bg-modal: #1a1f2b;
+            --border-color: #2a3040;
+            --border-hover: #3d4a5c;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-blue-hover: #79b8ff;
+            --accent-blue-bg: rgba(88, 166, 255, 0.08);
+            --accent-green: #3fb950;
+            --accent-green-bg: rgba(63, 185, 80, 0.08);
+            --accent-orange: #d2991d;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .bg-decoration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(88, 166, 255, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 60%, rgba(63, 185, 80, 0.03) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 80%, rgba(210, 153, 29, 0.02) 0%, transparent 50%);
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* ==================== 登录页面 ==================== */
+        .login-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 700'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2358a6ff' stop-opacity='0.25'/%3E%3Cstop offset='100%25' stop-color='%2379b8ff' stop-opacity='0.05'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='120' y='400' width='140' height='180' fill='none' stroke='%2358a6ff' stroke-width='1.8' opacity='0.5'/%3E%3Cpolygon points='100,400 190,320 280,400' fill='none' stroke='%2358a6ff' stroke-width='1.8' opacity='0.5'/%3E%3Crect x='160' y='330' width='50' height='100' fill='none' stroke='%2358a6ff' stroke-width='1.2' opacity='0.35'/%3E%3Crect x='340' y='430' width='120' height='150' fill='none' stroke='%2358a6ff' stroke-width='1.8' opacity='0.5'/%3E%3Cpolygon points='320,430 400,350 480,430' fill='none' stroke='%2358a6ff' stroke-width='1.8' opacity='0.5'/%3E%3Crect x='380' y='380' width='40' height='80' fill='none' stroke='%2358a6ff' stroke-width='1.2' opacity='0.35'/%3E%3Ccircle cx='230' cy='520' r='14' fill='%2358a6ff' opacity='0.4'/%3E%3Ccircle cx='230' cy='520' r='20' fill='none' stroke='%2358a6ff' stroke-width='1' opacity='0.25'/%3E%3Ccircle cx='430' cy='540' r='14' fill='%2358a6ff' opacity='0.4'/%3E%3Ccircle cx='430' cy='540' r='20' fill='none' stroke='%2358a6ff' stroke-width='1' opacity='0.25'/%3E%3Ccircle cx='600' cy='460' r='12' fill='%2358a6ff' opacity='0.4'/%3E%3Ccircle cx='600' cy='460' r='18' fill='none' stroke='%2358a6ff' stroke-width='1' opacity='0.25'/%3E%3Ccircle cx='750' cy='500' r='10' fill='%2358a6ff' opacity='0.4'/%3E%3Cline x1='230' y1='520' x2='430' y2='540' stroke='%2358a6ff' stroke-width='1.5' opacity='0.35' stroke-dasharray='6,6'/%3E%3Cline x1='430' y1='540' x2='600' y2='460' stroke='%2358a6ff' stroke-width='1.5' opacity='0.35' stroke-dasharray='6,6'/%3E%3Cline x1='600' y1='460' x2='750' y2='500' stroke='%2358a6ff' stroke-width='1.5' opacity='0.35' stroke-dasharray='6,6'/%3E%3Cpath d='M680,300 a35,35 0 0,1 65,0 a45,45 0 0,1 80,10 a35,35 0 0,1 -15,55 h-110 a30,30 0 0,1 -20,-65 z' fill='none' stroke='%2358a6ff' stroke-width='2' opacity='0.45'/%3E%3Cpath d='M700,310 a20,20 0 0,1 40,0 a25,25 0 0,1 45,5 a20,20 0 0,1 -10,35 h-65 a18,18 0 0,1 -10,-40 z' fill='%2358a6ff' opacity='0.08'/%3E%3Cpolygon points='580,450 595,465 580,480' fill='%2358a6ff' opacity='0.3'/%3E%3Cpolygon points='735,490 748,505 735,520' fill='%2358a6ff' opacity='0.3'/%3E%3Cline x1='100' y1='580' x2='480' y2='580' stroke='%2358a6ff' stroke-width='1' opacity='0.3'/%3E%3Cline x1='560' y1='510' x2='780' y2='510' stroke='%2358a6ff' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: 48px 40px 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-blue), #79b8ff, #a5d6ff);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+        .login-logo-area {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+        .login-logo-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, #1a3a5c, #1a2f44);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 0 4px rgba(88, 166, 255, 0.06);
+        }
+        .login-logo-icon svg {
+            width: 30px;
+            height: 30px;
+        }
+        .login-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+            margin-bottom: 4px;
+        }
+        .login-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        .input-wrapper .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 14px 12px 42px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: var(--font-sans);
+            transition: all var(--transition);
+            outline: none;
+            letter-spacing: 0.2px;
+        }
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+        .form-input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+            background: #101720;
+        }
+        .form-input:hover:not(:focus) {
+            border-color: var(--border-hover);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px 20px;
+            background: var(--accent-blue);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            letter-spacing: 0.3px;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-login:hover {
+            background: var(--accent-blue-hover);
+            box-shadow: 0 4px 16px rgba(88, 166, 255, 0.25);
+            transform: translateY(-1px);
+        }
+        .btn-login:active {
+            transform: translateY(0);
+        }
+        .btn-login.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        .btn-login .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .btn-login.loading .spinner {
+            display: inline-block;
+        }
+        .btn-login.loading .btn-text {
+            display: none;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error-message {
+            background: rgba(248, 81, 73, 0.08);
+            border: 1px solid rgba(248, 81, 73, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            color: var(--accent-red);
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+        .error-message.show {
+            display: flex;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+        }
+        .login-footer .divider {
+            color: var(--border-color);
+            margin: 0 8px;
+        }
+        .login-footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+        .login-footer a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* ==================== 工作页面 ==================== */
+        .workspace-page {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+        .workspace-page.active {
+            display: flex;
+        }
+
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+            padding: 0 24px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+            z-index: 100;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .nav-logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #1a3a5c, #1a2f44);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+        .nav-logo svg {
+            width: 20px;
+            height: 20px;
+        }
+        .nav-brand {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+            white-space: nowrap;
+        }
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 32px;
+            list-style: none;
+        }
+        .nav-menu a {
+            display: block;
+            padding: 8px 16px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+            letter-spacing: 0.1px;
+            white-space: nowrap;
+        }
+        .nav-menu a:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .nav-menu a.active {
+            color: var(--accent-blue);
+            background: var(--accent-blue-bg);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2d4a6e, #3a5f8a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all var(--transition);
+            font-weight: 600;
+            font-size: 14px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .user-avatar:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 4px rgba(88, 166, 255, 0.1);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 240px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 20px 12px;
+            flex-shrink: 0;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 12px 6px;
+            margin-top: 8px;
+        }
+        .sidebar-section-title:first-child {
+            margin-top: 0;
+        }
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition);
+            color: var(--text-secondary);
+            font-size: 13.5px;
+            font-weight: 450;
+            text-decoration: none;
+            letter-spacing: 0.1px;
+        }
+        .sidebar-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
+        }
+        .sidebar-item.active {
+            background: var(--accent-blue-bg);
+            color: var(--accent-blue);
+        }
+        .sidebar-item .icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sidebar-badge {
+            margin-left: auto;
+            background: var(--accent-blue-bg);
+            color: var(--accent-blue);
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .content-panel {
+            flex: 1;
+            padding: 28px 32px;
+            overflow-y: auto;
+            background: var(--bg-primary);
+        }
+        .page-header {
+            margin-bottom: 28px;
+        }
+        .page-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
+            margin-bottom: 6px;
+        }
+        .page-header p {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== 应用管理样式 ==================== */
+        .apps-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+        }
+        .apps-toolbar .filter-input {
+            padding: 8px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 13px;
+            font-family: var(--font-sans);
+            outline: none;
+            transition: all var(--transition);
+            min-width: 140px;
+            flex: 1;
+            max-width: 200px;
+        }
+        .apps-toolbar .filter-input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.08);
+        }
+        .apps-toolbar .filter-select {
+            padding: 8px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 13px;
+            font-family: var(--font-sans);
+            outline: none;
+            cursor: pointer;
+            transition: all var(--transition);
+            min-width: 120px;
+        }
+        .apps-toolbar .filter-select:focus {
+            border-color: var(--accent-blue);
+        }
+        .apps-toolbar .btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition);
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            letter-spacing: 0.2px;
+            font-family: var(--font-sans);
+            white-space: nowrap;
+        }
+        .apps-toolbar .btn:hover {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .apps-toolbar .btn.primary {
+            background: var(--accent-blue);
+            color: #fff;
+            border-color: var(--accent-blue);
+        }
+        .apps-toolbar .btn.primary:hover {
+            background: var(--accent-blue-hover);
+            border-color: var(--accent-blue-hover);
+        }
+        .apps-toolbar .btn.ghost {
+            border-color: transparent;
+            background: transparent;
+            color: var(--accent-blue);
+        }
+        .apps-toolbar .btn.ghost:hover {
+            background: var(--accent-blue-bg);
+        }
+        .apps-toolbar .app-count {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        /* 应用卡片网格 */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 16px;
+        }
+
+        .app-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all var(--transition);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .app-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+        /* 卡片上部 */
+        .app-card-top {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 20px 14px;
+        }
+        .app-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 22px;
+            color: #fff;
+        }
+        .app-card-title-area {
+            flex: 1;
+            min-width: 0;
+        }
+        .app-card-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .app-card-id {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            letter-spacing: 0.3px;
+        }
+        /* 卡片中部 */
+        .app-card-middle {
+            display: flex;
+            gap: 8px;
+            padding: 0 20px 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .app-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .app-tag.type-external {
+            background: rgba(210, 153, 29, 0.1);
+            color: var(--accent-orange);
+        }
+        .app-tag.type-internal {
+            background: var(--accent-blue-bg);
+            color: var(--accent-blue);
+        }
+        .app-tag.template-tag {
+            background: rgba(163, 113, 247, 0.1);
+            color: var(--accent-purple);
+        }
+        .app-tag.no-template {
+            background: rgba(110, 118, 129, 0.1);
+            color: var(--text-muted);
+        }
+        /* 卡片下部 */
+        .app-card-bottom {
+            padding: 0 20px 10px;
+            flex: 1;
+        }
+        .app-card-desc {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .app-card-deploy {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            font-family: var(--font-mono);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        /* 卡片操作 */
+        .app-card-actions {
+            display: flex;
+            gap: 6px;
+            padding: 10px 20px 16px;
+            border-top: 1px solid transparent;
+            margin-top: auto;
+        }
+        .app-card:hover .app-card-actions {
+            border-top-color: var(--border-color);
+        }
+        .app-card-actions .btn-sm {
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition);
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            letter-spacing: 0.2px;
+            font-family: var(--font-sans);
+        }
+        .app-card-actions .btn-sm:hover {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .app-card-actions .btn-sm.danger:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+            background: rgba(248, 81, 73, 0.06);
+        }
+
+        /* ==================== 模态框样式 ==================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+        }
+        .modal-overlay.show {
+            display: flex;
+        }
+        .modal {
+            background: var(--bg-modal);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            width: 90%;
+            max-width: 680px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            background: var(--bg-modal);
+            z-index: 2;
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+        .modal-header h3 {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+        }
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+        }
+        .modal-close:hover {
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .modal-body {
+            padding: 20px 24px;
+        }
+        .modal-body .form-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .modal-body .form-row .form-col {
+            flex: 1;
+            min-width: 200px;
+        }
+        .modal-body label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            margin-bottom: 6px;
+        }
+        .modal-body .form-input,
+        .modal-body .form-select,
+        .modal-body .form-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 13.5px;
+            font-family: var(--font-sans);
+            outline: none;
+            transition: all var(--transition);
+        }
+        .modal-body .form-textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+        .modal-body .form-input:focus,
+        .modal-body .form-select:focus,
+        .modal-body .form-textarea:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.08);
+        }
+        .modal-body .form-select {
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b949e' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+
+        /* 图标选择器 */
+        .icon-picker {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 8px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            margin-top: 4px;
+        }
+        .icon-picker .icon-option {
+            width: 100%;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition);
+            border: 2px solid transparent;
+            font-size: 16px;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .icon-picker .icon-option:hover {
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+        .icon-picker .icon-option.selected {
+            border-color: var(--accent-blue);
+            background: var(--accent-blue-bg);
+            color: var(--accent-blue);
+        }
+
+        /* 颜色选择器 */
+        .color-picker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+            padding: 8px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+        }
+        .color-picker .color-option {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all var(--transition);
+            border: 2px solid transparent;
+            flex-shrink: 0;
+        }
+        .color-picker .color-option:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+        }
+        .color-picker .color-option.selected {
+            border-color: #fff;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15);
+            transform: scale(1.1);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            padding: 16px 24px 20px;
+            border-top: 1px solid var(--border-color);
+            position: sticky;
+            bottom: 0;
+            background: var(--bg-modal);
+            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+        }
+        .modal-footer .btn {
+            padding: 9px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition);
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            letter-spacing: 0.2px;
+            font-family: var(--font-sans);
+        }
+        .modal-footer .btn:hover {
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+        .modal-footer .btn.primary {
+            background: var(--accent-blue);
+            color: #fff;
+            border-color: var(--accent-blue);
+        }
+        .modal-footer .btn.primary:hover {
+            background: var(--accent-blue-hover);
+            border-color: var(--accent-blue-hover);
+        }
+        .modal-footer .btn.danger {
+            border-color: rgba(248, 81, 73, 0.3);
+            color: var(--accent-red);
+        }
+        .modal-footer .btn.danger:hover {
+            background: rgba(248, 81, 73, 0.08);
+            border-color: var(--accent-red);
+        }
+
+        /* 模版管理列表 */
+        .template-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            max-height: 250px;
+            overflow-y: auto;
+            margin-top: 4px;
+            padding: 4px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+        }
+        .template-list .template-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.015);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+        }
+        .template-list .template-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        .template-list .template-item span {
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+        .template-list .template-item .btn-xs {
+            padding: 4px 10px;
+            font-size: 10px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            border: 1px solid rgba(248, 81, 73, 0.3);
+            background: transparent;
+            color: var(--accent-red);
+            transition: all var(--transition);
+            font-family: var(--font-sans);
+        }
+        .template-list .template-item .btn-xs:hover {
+            background: rgba(248, 81, 73, 0.1);
+        }
+        .template-add-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .template-add-row .form-input {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+        .template-add-row .btn {
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            border: 1px solid var(--accent-blue);
+            background: var(--accent-blue);
+            color: #fff;
+            transition: all var(--transition);
+            font-family: var(--font-sans);
+            white-space: nowrap;
+        }
+        .template-add-row .btn:hover {
+            background: var(--accent-blue-hover);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 32px 24px 28px;
+                max-width: 100%;
+            }
+            .nav-menu {
+                display: none;
+            }
+            .sidebar {
+                width: 60px;
+                padding: 16px 8px;
+            }
+            .sidebar-item span:not(.icon) {
+                display: none;
+            }
+            .sidebar-section-title {
+                display: none;
+            }
+            .content-panel {
+                padding: 16px;
+            }
+            .apps-grid {
+                grid-template-columns: 1fr;
+            }
+            .icon-picker {
+                grid-template-columns: repeat(6, 1fr);
+            }
+            .modal {
+                max-width: 95%;
+                max-height: 90vh;
+            }
+        }
+        @media (max-width: 480px) {
+            .top-nav {
+                padding: 0 12px;
+            }
+            .nav-brand {
+                display: none;
+            }
+            .content-panel {
+                padding: 12px;
+            }
+            .icon-picker {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            .apps-toolbar {
+                flex-direction: column;
+            }
+            .apps-toolbar .filter-input {
+                max-width: 100%;
+                flex: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-decoration"></div>
+    <div class="bg-grid"></div>
+
+    <!-- ==================== 登录页面 ==================== -->
+    <div class="app-container" id="loginPage">
+        <div class="login-page">
+            <div class="login-card">
+                <div class="login-logo-area">
+                    <div class="login-logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" stroke="#58a6ff"/>
+                            <circle cx="12" cy="12" r="4" stroke="#79b8ff"/>
+                            <line x1="12" y1="2" x2="12" y2="6" stroke="#58a6ff"/>
+                            <line x1="12" y1="18" x2="12" y2="22" stroke="#58a6ff"/>
+                            <line x1="2" y1="12" x2="6" y2="12" stroke="#58a6ff"/>
+                            <line x1="18" y1="12" x2="22" y2="12" stroke="#58a6ff"/>
+                        </svg>
+                    </div>
+                    <h1 class="login-title">善器物联数智化赋能平台</h1>
+                    <p class="login-subtitle">IoT Digital Intelligence Empowerment</p>
+                </div>
+                <div class="error-message" id="loginError">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                    <span id="loginErrorText">用户名或密码错误</span>
+                </div>
+                <form id="loginForm" autocomplete="off">
+                    <div class="form-group">
+                        <label for="username">用户名</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                            <input type="text" id="username" class="form-input" placeholder="请输入用户名" required autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                            <input type="password" id="password" class="form-input" placeholder="请输入密码" required autocomplete="off">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-login" id="loginBtn">
+                        <span class="spinner"></span><span class="btn-text">登 录</span>
+                    </button>
+                </form>
+            </div>
+            <div class="login-footer">
+                <span>&copy; 2026 善器物联数智化赋能平台</span>
+                <span class="divider">|</span>
+                <span>技术支持：<a href="mailto:support@iot-platform.com">support@iot-platform.com</a></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 工作页面 ==================== -->
+    <div class="workspace-page" id="workspacePage">
+        <nav class="top-nav">
+            <div class="nav-left">
+                <div class="nav-logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" stroke="#58a6ff"/>
+                        <circle cx="12" cy="12" r="4" stroke="#79b8ff"/>
+                        <line x1="12" y1="2" x2="12" y2="6" stroke="#58a6ff"/>
+                        <line x1="12" y1="18" x2="12" y2="22" stroke="#58a6ff"/>
+                        <line x1="2" y1="12" x2="6" y2="12" stroke="#58a6ff"/>
+                        <line x1="18" y1="12" x2="22" y2="12" stroke="#58a6ff"/>
+                    </svg>
+                </div>
+                <span class="nav-brand">善器物联数智化赋能</span>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#" data-page="dashboard" class="active">工作台</a></li>
+                    <li><a href="#" data-page="apps">应用管理</a></li>
+                    <li><a href="#" data-page="enterprise">企业管理</a></li>
+                    <li><a href="#" data-page="system">系统管理</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div class="user-avatar" id="userAvatar" title="用户设置">管</div>
+            </div>
+        </nav>
+        <div class="main-content">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-section-title">概览</div>
+                <a href="#" class="sidebar-item active" data-sub="overview"><span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span><span>仪表盘</span></a>
+                <a href="#" class="sidebar-item" data-sub="devices"><span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/></svg></span><span>设备监控</span><span class="sidebar-badge">12</span></a>
+                <a href="#" class="sidebar-item" data-sub="analytics"><span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span>数据分析</span></a>
+                <div class="sidebar-section-title">管理</div>
+                <a href="#" class="sidebar-item" data-sub="users"><span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span><span>用户管理</span></a>
+                <a href="#" class="sidebar-item" data-sub="logs"><span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg></span><span>操作日志</span></a>
+                <a href="#" class="sidebar-item" data-sub="settings"><span class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/></svg></span><span>平台设置</span></a>
+            </aside>
+            <main class="content-panel" id="contentPanel"></main>
+        </div>
+    </div>
+
+    <!-- ==================== 全局模态框容器 ==================== -->
+    <div class="modal-overlay" id="appModalOverlay">
+        <div class="modal" id="appModal"></div>
+    </div>
+    <div class="modal-overlay" id="templateModalOverlay">
+        <div class="modal" id="templateModal"></div>
+    </div>
+
+    <script>
+        (function() {
+            // ==================== 元素引用 ====================
+            const loginPage = document.getElementById('loginPage');
+            const workspacePage = document.getElementById('workspacePage');
+            const loginForm = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            const loginError = document.getElementById('loginError');
+            const loginErrorText = document.getElementById('loginErrorText');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const userAvatar = document.getElementById('userAvatar');
+            const navMenu = document.getElementById('navMenu');
+            const sidebar = document.getElementById('sidebar');
+            const contentPanel = document.getElementById('contentPanel');
+            const appModalOverlay = document.getElementById('appModalOverlay');
+            const appModal = document.getElementById('appModal');
+            const templateModalOverlay = document.getElementById('templateModalOverlay');
+            const templateModal = document.getElementById('templateModal');
+
+            const DEMO_CREDENTIALS = { username: 'admin', password: 'admin123' };
+            let currentUsername = '';
+
+            // ==================== 应用管理数据 ====================
+            const ICON_LIBRARY = [
+                'fa-home', 'fa-cog', 'fa-user', 'fa-envelope', 'fa-heart', 'fa-star', 'fa-cloud', 'fa-database', 'fa-chart-bar', 'fa-server',
+                'fa-microchip', 'fa-industry', 'fa-network-wired', 'fa-wifi', 'fa-bluetooth-b', 'fa-mobile-screen-button', 'fa-laptop', 'fa-desktop', 'fa-tablet-screen-button', 'fa-clock',
+                'fa-calendar', 'fa-bell', 'fa-shield-halved', 'fa-lock', 'fa-key', 'fa-globe', 'fa-location-dot', 'fa-building', 'fa-robot', 'fa-satellite',
+                'fa-solar-panel', 'fa-temperature-high', 'fa-droplet', 'fa-fire', 'fa-bolt', 'fa-lightbulb', 'fa-power-off', 'fa-plug', 'fa-gauge-high', 'fa-list-check',
+                'fa-screwdriver-wrench', 'fa-wrench', 'fa-truck', 'fa-truck-fast', 'fa-warehouse', 'fa-boxes', 'fa-clipboard-list', 'fa-chart-pie', 'fa-chart-line', 'fa-gear'
+            ];
+            const COLOR_LIBRARY = [
+                '#58a6ff', '#3fb950', '#d2991d', '#f85149', '#a371f7',
+                '#79c0ff', '#56d364', '#e3b341', '#f0883e', '#db6d8e',
+                '#539bf5', '#2da44e', '#bc8c1c', '#c93c37', '#8957e5',
+                '#1f6feb', '#6e7681', '#adbac7', '#768390', '#e6edf3'
+            ];
+
+            let appIdCounter = 3;
+            let apps = [
+                { id: 'APP-001', icon: 'fa-microchip', color: '#58a6ff', name: '设备数据采集器', type: 'internal', template: '数据采集模版',
+                    description: '实时采集工业设备运行数据，支持多种协议接入与边缘计算预处理。', deployUrl: '' },
+                { id: 'APP-002', icon: 'fa-cloud', color: '#3fb950', name: '云端监控网关', type: 'external',
+                    template: '', description: '连接云端与本地设备，提供安全可靠的数据传输通道。',
+                    deployUrl: 'https://cloud-gw.example.com/deploy' },
+                { id: 'APP-003', icon: 'fa-chart-line', color: '#a371f7', name: '智能分析引擎', type: 'internal',
+                    template: '智能分析模版', description: '基于AI的实时数据分析与异常检测引擎。', deployUrl: '' },
+            ];
+            let templates = [
+                { id: 'TPL-001', name: '数据采集模版' },
+                { id: 'TPL-002', name: '设备监控模版' },
+                { id: 'TPL-003', name: '智能分析模版' },
+            ];
+            let templateIdCounter = 4;
+
+            function generateAppId() {
+                appIdCounter++;
+                return 'APP-' + String(appIdCounter).padStart(3, '0');
+            }
+
+            function generateTemplateId() {
+                const id = 'TPL-' + String(templateIdCounter).padStart(3, '0');
+                templateIdCounter++;
+                return id;
+            }
+
+            // ==================== 登录逻辑 ====================
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
+                loginError.classList.remove('show');
+                if (!username || !password) { showError('请输入用户名和密码'); return; }
+                loginBtn.classList.add('loading');
+                setTimeout(() => {
+                    loginBtn.classList.remove('loading');
+                    if (username === DEMO_CREDENTIALS.username && password === DEMO_CREDENTIALS
+                        .password) {
+                        currentUsername = username;
+                        onLoginSuccess();
+                    } else {
+                        showError('用户名或密码错误，请重试');
+                        passwordInput.value = '';
+                        passwordInput.focus();
+                    }
+                }, 1200);
+            });
+
+            function showError(message) {
+                loginErrorText.textContent = message;
+                loginError.classList.add('show');
+            }
+
+            function onLoginSuccess() {
+                updateAvatar();
+                loginPage.style.display = 'none';
+                workspacePage.classList.add('active');
+                loginForm.reset();
+                loginError.classList.remove('show');
+                updateContentPanel('dashboard');
+            }
+
+            function updateAvatar() {
+                userAvatar.textContent = currentUsername.charAt(0).toUpperCase();
+                userAvatar.title = currentUsername;
+            }
+
+            // ==================== 导航逻辑 ====================
+            navMenu.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    e.preventDefault();
+                    const page = e.target.getAttribute('data-page');
+                    navMenu.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+                    e.target.classList.add('active');
+                    updateContentPanel(page);
+                    syncSidebar(page);
+                }
+            });
+            sidebar.addEventListener('click', function(e) {
+                const item = e.target.closest('.sidebar-item');
+                if (item) {
+                    e.preventDefault();
+                    const sub = item.getAttribute('data-sub');
+                    sidebar.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    syncTopMenu(sub);
+                }
+            });
+
+            function syncSidebar(page) {
+                const mapping = { 'dashboard': 'overview', 'apps': 'devices', 'enterprise': 'users',
+                    'system': 'settings' };
+                const sub = mapping[page] || 'overview';
+                sidebar.querySelectorAll('.sidebar-item').forEach(i => {
+                    i.classList.remove('active');
+                    if (i.getAttribute('data-sub') === sub) i.classList.add('active');
+                });
+            }
+
+            function syncTopMenu(sub) {
+                const mapping = { 'overview': 'dashboard', 'devices': 'apps', 'analytics': 'dashboard',
+                    'users': 'enterprise', 'logs': 'system', 'settings': 'system' };
+                const page = mapping[sub] || 'dashboard';
+                navMenu.querySelectorAll('a').forEach(a => {
+                    a.classList.remove('active');
+                    if (a.getAttribute('data-page') === page) a.classList.add('active');
+                });
+                updateContentPanel(page);
+            }
+
+            // ==================== 内容面板更新 ====================
+            function updateContentPanel(page) {
+                if (page === 'dashboard') {
+                    renderDashboard();
+                } else if (page === 'apps') {
+                    renderAppsPanel();
+                } else {
+                    const pageData = {
+                        'enterprise': { title: '企业管理', description: '企业组织架构与多租户管理',
+                            icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>' },
+                        'system': { title: '系统管理', description: '平台配置、日志与系统维护',
+                            icon: '<circle cx="12" cy="12" r="3"/>' }
+                    };
+                    const data = pageData[page] || { title: '页面', description: '' };
+                    contentPanel.innerHTML = `
+                        <div class="page-header"><h2>${data.title}</h2><p>${data.description}</p></div>
+                        <div class="empty-state"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:16px;opacity:0.5;">${data.icon}</svg><p>${data.title}模块 — 功能开发中</p></div>`;
+                }
+            }
+
+            function renderDashboard() {
+                contentPanel.innerHTML = `
+                    <div class="page-header"><h2>工作台</h2><p>实时监控物联设备运行状态与数据概览</p></div>
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="stat-card-header"><span class="stat-card-label">在线设备</span><span class="stat-card-icon blue"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/></svg></span></div><div class="stat-card-value">1,247</div><div class="stat-card-change">▲ 12% 较上月</div></div>
+                        <div class="stat-card"><div class="stat-card-header"><span class="stat-card-label">数据点/分钟</span><span class="stat-card-icon green"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span></div><div class="stat-card-value">38.2K</div><div class="stat-card-change">▲ 8.5% 较上月</div></div>
+                        <div class="stat-card"><div class="stat-card-header"><span class="stat-card-label">活跃应用</span><span class="stat-card-icon orange"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><line x1="16" y1="2" x2="16" y2="22"/></svg></span></div><div class="stat-card-value">86</div><div class="stat-card-change">▲ 3.2% 较上月</div></div>
+                        <div class="stat-card"><div class="stat-card-header"><span class="stat-card-label">系统健康度</span><span class="stat-card-icon green"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span></div><div class="stat-card-value">99.7%</div><div class="stat-card-change">正常运行</div></div>
+                    </div>
+                    <div class="table-section">
+                        <div class="table-header"><h3>设备列表</h3><div class="table-header-actions"><button class="btn-sm">导出</button><button class="btn-sm primary">+ 添加设备</button></div></div>
+                        <table><thead><tr><th>设备名称</th><th>设备ID</th><th>类型</th><th>状态</th><th>最后在线</th></tr></thead><tbody>
+                            <tr><td><span class="status-dot online"></span>温度传感器-A1</td><td style="font-family:var(--font-mono);color:var(--text-secondary);">DEV-001</td><td>传感器</td><td><span class="tag active">在线</span></td><td style="color:var(--text-secondary);">2026-05-21 10:32</td></tr>
+                            <tr><td><span class="status-dot online"></span>智能网关-G2</td><td style="font-family:var(--font-mono);color:var(--text-secondary);">DEV-002</td><td>网关</td><td><span class="tag active">在线</span></td><td style="color:var(--text-secondary);">2026-05-21 10:31</td></tr>
+                            <tr><td><span class="status-dot warning"></span>湿度监测器-H3</td><td style="font-family:var(--font-mono);color:var(--text-secondary);">DEV-003</td><td>传感器</td><td><span class="tag pending">延迟</span></td><td style="color:var(--text-secondary);">2026-05-21 09:58</td></tr>
+                            <tr><td><span class="status-dot offline"></span>边缘计算节点-E4</td><td style="font-family:var(--font-mono);color:var(--text-secondary);">DEV-004</td><td>边缘节点</td><td><span class="tag inactive">离线</span></td><td style="color:var(--text-secondary);">2026-05-20 18:12</td></tr>
+                            <tr><td><span class="status-dot online"></span>智能电表-M5</td><td style="font-family:var(--font-mono);color:var(--text-secondary);">DEV-005</td><td>计量设备</td><td><span class="tag active">在线</span></td><td style="color:var(--text-secondary);">2026-05-21 10:30</td></tr>
+                        </tbody></table>
+                    </div>`;
+            }
+
+            // ==================== 应用管理渲染 ====================
+            function renderAppsPanel(filterName = '', filterType = '', filterTemplate = '',
+            filterDesc = '') {
+                let filteredApps = apps;
+                if (filterName) filteredApps = filteredApps.filter(a => a.name.toLowerCase().includes(
+                    filterName.toLowerCase()));
+                if (filterType) filteredApps = filteredApps.filter(a => a.type === filterType);
+                if (filterTemplate) filteredApps = filteredApps.filter(a => a.template === filterTemplate);
+                if (filterDesc) filteredApps = filteredApps.filter(a => a.description.toLowerCase().includes(
+                    filterDesc.toLowerCase()));
+
+                const templateOptions = ['', ...new Set(apps.map(a => a.template).filter(Boolean))];
+                const cardsHtml = filteredApps.length === 0 ?
+                    '<div class="empty-state">暂无匹配的应用，请调整筛选条件或新增应用。</div>' :
+                    filteredApps.map(app => {
+                        const typeLabel = app.type === 'external' ? '外部' : '内部';
+                        const typeClass = app.type === 'external' ? 'type-external' : 'type-internal';
+                        const templateDisplay = app.type === 'internal' ? (app.template || '未选择模版') :
+                            '外部接入';
+                        const templateClass = app.type === 'internal' && app.template ? 'template-tag' :
+                            'no-template';
+                        const deployHtml = app.type === 'external' && app.deployUrl ?
+                            `<div class="app-card-deploy" title="${app.deployUrl}">🔗 ${app.deployUrl}</div>` :
+                            '';
+                        return `
+                        <div class="app-card" data-app-id="${app.id}">
+                            <div class="app-card-top">
+                                <div class="app-card-icon" style="background:${app.color};"><i class="fas ${app.icon}"></i></div>
+                                <div class="app-card-title-area">
+                                    <div class="app-card-name">${app.name}</div>
+                                    <div class="app-card-id">${app.id}</div>
+                                </div>
+                            </div>
+                            <div class="app-card-middle">
+                                <span class="app-tag ${typeClass}">${typeLabel}</span>
+                                <span class="app-tag ${templateClass}">${templateDisplay}</span>
+                            </div>
+                            <div class="app-card-bottom">
+                                <div class="app-card-desc">${app.description || '暂无描述'}</div>
+                                ${deployHtml}
+                            </div>
+                            <div class="app-card-actions">
+                                <button class="btn-sm" onclick="window._editApp('${app.id}')">✏️ 编辑</button>
+                                <button class="btn-sm danger" onclick="window._deleteApp('${app.id}')">🗑 删除</button>
+                            </div>
+                        </div>`;
+                    }).join('');
+
+                contentPanel.innerHTML = `
+                    <div class="page-header"><h2>应用管理</h2><p>管理所有已注册的物联应用与服务</p></div>
+                    <div class="apps-toolbar" id="appsToolbar">
+                        <input type="text" class="filter-input" id="filterName" placeholder="🔍 名称筛选..." value="${filterName}">
+                        <select class="filter-select" id="filterType">
+                            <option value="">全部类型</option>
+                            <option value="internal" ${filterType==='internal'?'selected':''}>内部</option>
+                            <option value="external" ${filterType==='external'?'selected':''}>外部</option>
+                        </select>
+                        <select class="filter-select" id="filterTemplate">
+                            <option value="">全部模版</option>
+                            ${templateOptions.map(t=>t?`<option value="${t}" ${filterTemplate===t?'selected':''}>${t}</option>`:'').join('')}
+                        </select>
+                        <input type="text" class="filter-input" id="filterDesc" placeholder="🔍 描述筛选..." value="${filterDesc}">
+                        <button class="btn ghost" id="btnResetFilter">↻ 重置</button>
+                        <button class="btn ghost" id="btnManageTemplates">📋 管理模版</button>
+                        <button class="btn primary" id="btnAddApp">+ 新增应用</button>
+                        <span class="app-count">共 ${filteredApps.length} 个应用</span>
+                    </div>
+                    <div class="apps-grid" id="appsGrid">${cardsHtml}</div>`;
+
+                // 绑定筛选事件
+                document.getElementById('filterName').addEventListener('input', function() {
+                    renderAppsPanel(this.value, document.getElementById('filterType').value,
+                        document.getElementById('filterTemplate').value, document.getElementById(
+                            'filterDesc').value);
+                });
+                document.getElementById('filterType').addEventListener('change', function() {
+                    renderAppsPanel(document.getElementById('filterName').value, this.value, document
+                        .getElementById('filterTemplate').value, document.getElementById('filterDesc')
+                        .value);
+                });
+                document.getElementById('filterTemplate').addEventListener('change', function() {
+                    renderAppsPanel(document.getElementById('filterName').value, document.getElementById(
+                        'filterType').value, this.value, document.getElementById('filterDesc').value);
+                });
+                document.getElementById('filterDesc').addEventListener('input', function() {
+                    renderAppsPanel(document.getElementById('filterName').value, document.getElementById(
+                        'filterType').value, document.getElementById('filterTemplate').value, this.value);
+                });
+                document.getElementById('btnResetFilter').addEventListener('click', function() {
+                    renderAppsPanel();
+                });
+                document.getElementById('btnAddApp').addEventListener('click', function() {
+                    openAppModal();
+                });
+                document.getElementById('btnManageTemplates').addEventListener('click', function() {
+                    openTemplateModal();
+                });
+            }
+
+            // ==================== 应用模态框 ====================
+            function openAppModal(appId = null) {
+                const isEdit = !!appId;
+                const app = isEdit ? apps.find(a => a.id === appId) : null;
+                const selectedIcon = app ? app.icon : 'fa-microchip';
+                const selectedColor = app ? app.color : '#58a6ff';
+                const selectedType = app ? app.type : 'internal';
+                const selectedTemplate = app ? (app.template || '') : (templates.length > 0 ? templates[0].name :
+                    '');
+
+                const iconGrid = ICON_LIBRARY.map(icon =>
+                    `<div class="icon-option${icon===selectedIcon?' selected':''}" data-icon="${icon}" title="${icon}"><i class="fas ${icon}"></i></div>`
+                ).join('');
+                const colorGrid = COLOR_LIBRARY.map(c =>
+                    `<div class="color-option${c===selectedColor?' selected':''}" data-color="${c}" style="background:${c};" title="${c}"></div>`
+                ).join('');
+                const templateOptions = templates.map(t =>
+                    `<option value="${t.name}" ${t.name===selectedTemplate?'selected':''}>${t.name}</option>`).join(
+                    '');
+
+                appModal.innerHTML = `
+                    <div class="modal-header"><h3>${isEdit?'编辑应用':'新增应用'}</h3><button class="modal-close" onclick="window._closeAppModal()">✕</button></div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-col"><label>应用名称 *</label><input type="text" class="form-input" id="appName" value="${app?app.name:''}" placeholder="输入应用名称"></div>
+                            <div class="form-col"><label>应用ID</label><input type="text" class="form-input" value="${isEdit?app.id:'自动生成'}" disabled style="opacity:0.6;"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col"><label>类型 *</label><select class="form-select" id="appType">${selectedType==='internal'?'<option value="internal" selected>内部</option><option value="external">外部</option>':'<option value="internal">内部</option><option value="external" selected>外部</option>'}</select></div>
+                            <div class="form-col" id="templateCol" style="display:${selectedType==='internal'?'block':'none'};"><label>模版 *</label><select class="form-select" id="appTemplate">${templateOptions}</select></div>
+                            <div class="form-col" id="deployCol" style="display:${selectedType==='external'?'block':'none'};"><label>部署地址 *</label><input type="text" class="form-input" id="appDeployUrl" value="${app?app.deployUrl||'':''}" placeholder="https://..."></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col"><label>图标</label>
+                                <div class="icon-picker" id="iconPicker">${iconGrid}</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col"><label>图标颜色</label>
+                                <div class="color-picker" id="colorPicker">${colorGrid}</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-col" style="flex:2;"><label>描述</label><textarea class="form-textarea" id="appDesc" placeholder="输入应用描述...">${app?app.description||'':''}</textarea></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" onclick="window._closeAppModal()">取消</button>
+                        <button class="btn primary" id="btnSaveApp">${isEdit?'保存修改':'确认新增'}</button>
+                    </div>`;
+
+                appModalOverlay.classList.add('show');
+
+                // 图标选择
+                appModal.querySelectorAll('.icon-option').forEach(el => {
+                    el.addEventListener('click', function() {
+                        appModal.querySelectorAll('.icon-option').forEach(e => e.classList
+                            .remove('selected'));
+                        this.classList.add('selected');
+                    });
+                });
+                // 颜色选择
+                appModal.querySelectorAll('.color-option').forEach(el => {
+                    el.addEventListener('click', function() {
+                        appModal.querySelectorAll('.color-option').forEach(e => e.classList
+                            .remove('selected'));
+                        this.classList.add('selected');
+                    });
+                });
+                // 类型切换
+                document.getElementById('appType').addEventListener('change', function() {
+                    document.getElementById('templateCol').style.display = this.value ===
+                        'internal' ? 'block' : 'none';
+                    document.getElementById('deployCol').style.display = this.value ===
+                        'external' ? 'block' : 'none';
+                });
+                // 保存按钮
+                document.getElementById('btnSaveApp').addEventListener('click', function() {
+                    saveApp(isEdit, appId);
+                });
+            }
+
+            function saveApp(isEdit, appId) {
+                const name = document.getElementById('appName').value.trim();
+                const type = document.getElementById('appType').value;
+                const template = type === 'internal' ? document.getElementById('appTemplate').value : '';
+                const deployUrl = type === 'external' ? document.getElementById('appDeployUrl').value.trim() :
+                    '';
+                const description = document.getElementById('appDesc').value.trim();
+                const iconEl = appModal.querySelector('.icon-option.selected');
+                const colorEl = appModal.querySelector('.color-option.selected');
+                const icon = iconEl ? iconEl.getAttribute('data-icon') : 'fa-microchip';
+                const color = colorEl ? colorEl.getAttribute('data-color') : '#58a6ff';
+
+                if (!name) { alert('请输入应用名称'); return; }
+                if (type === 'external' && !deployUrl) { alert('外部应用需要填写部署地址'); return; }
+                if (type === 'internal' && !template) { alert('内部应用需要选择一个模版'); return; }
+
+                if (isEdit) {
+                    const app = apps.find(a => a.id === appId);
+                    if (app) {
+                        app.name = name;
+                        app.type = type;
+                        app.template = template;
+                        app.deployUrl = deployUrl;
+                        app.description = description;
+                        app.icon = icon;
+                        app.color = color;
+                    }
+                } else {
+                    const newApp = {
+                        id: generateAppId(),
+                        icon,
+                        color,
+                        name,
+                        type,
+                        template,
+                        description,
+                        deployUrl
+                    };
+                    apps.push(newApp);
+                }
+                closeAppModal();
+                renderAppsPanel(
+                    document.getElementById('filterName')?.value || '',
+                    document.getElementById('filterType')?.value || '',
+                    document.getElementById('filterTemplate')?.value || '',
+                    document.getElementById('filterDesc')?.value || ''
+                );
+            }
+
+            function closeAppModal() {
+                appModalOverlay.classList.remove('show');
+            }
+
+            function deleteApp(appId) {
+                if (!confirm('确定要删除应用 ' + appId + ' 吗？此操作不可恢复。')) return;
+                apps = apps.filter(a => a.id !== appId);
+                renderAppsPanel(
+                    document.getElementById('filterName')?.value || '',
+                    document.getElementById('filterType')?.value || '',
+                    document.getElementById('filterTemplate')?.value || '',
+                    document.getElementById('filterDesc')?.value || ''
+                );
+            }
+
+            // ==================== 模版管理模态框 ====================
+            function openTemplateModal() {
+                const listHtml = templates.length === 0 ?
+                    '<div class="empty-state">暂无模版，请在下方添加。</div>' :
+                    templates.map(t => `
+                        <div class="template-item">
+                            <span>📄 ${t.name}</span>
+                            <button class="btn-xs" onclick="window._deleteTemplate('${t.id}')">删除</button>
+                        </div>`).join('');
+
+                templateModal.innerHTML = `
+                    <div class="modal-header"><h3>管理模版</h3><button class="modal-close" onclick="window._closeTemplateModal()">✕</button></div>
+                    <div class="modal-body">
+                        <label>现有模版</label>
+                        <div class="template-list" id="templateList">${listHtml}</div>
+                        <div class="template-add-row">
+                            <input type="text" class="form-input" id="newTemplateName" placeholder="输入新模版名称...">
+                            <button class="btn" id="btnAddTemplate">+ 添加</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn primary" onclick="window._closeTemplateModal()">完成</button>
+                    </div>`;
+
+                templateModalOverlay.classList.add('show');
+
+                document.getElementById('btnAddTemplate').addEventListener('click', function() {
+                    const nameInput = document.getElementById('newTemplateName');
+                    const name = nameInput.value.trim();
+                    if (!name) { alert('请输入模版名称'); return; }
+                    if (templates.some(t => t.name === name)) { alert('模版名称已存在'); return; }
+                    templates.push({ id: generateTemplateId(), name });
+                    nameInput.value = '';
+                    openTemplateModal(); // 刷新
+                });
+            }
+
+            function closeTemplateModal() {
+                templateModalOverlay.classList.remove('show');
+            }
+
+            function deleteTemplate(templateId) {
+                const tpl = templates.find(t => t.id === templateId);
+                if (!tpl) return;
+                if (apps.some(a => a.template === tpl.name)) {
+                    alert('该模版正在被应用使用，无法删除。请先修改相关应用的模版。');
+                    return;
+                }
+                if (!confirm('确定要删除模版 "' + tpl.name + '" 吗？')) return;
+                templates = templates.filter(t => t.id !== templateId);
+                openTemplateModal();
+            }
+
+            // ==================== 全局函数暴露 ====================
+            window._editApp = function(appId) { openAppModal(appId); };
+            window._deleteApp = function(appId) { deleteApp(appId); };
+            window._closeAppModal = function() { closeAppModal(); };
+            window._closeTemplateModal = function() { closeTemplateModal(); };
+            window._deleteTemplate = function(templateId) { deleteTemplate(templateId); };
+
+            // 点击模态框遮罩关闭
+            appModalOverlay.addEventListener('click', function(e) { if (e.target === appModalOverlay)
+                closeAppModal(); });
+            templateModalOverlay.addEventListener('click', function(e) { if (e.target === templateModalOverlay)
+                    closeTemplateModal(); });
+
+            // ==================== 头像 ====================
+            userAvatar.addEventListener('click', function() {
+                alert('当前用户：' + currentUsername + '\n\n演示版本，用户设置功能暂未开放。');
+            });
+
+            // ==================== 初始化 ====================
+            loginPage.style.display = 'flex';
+            workspacePage.classList.remove('active');
+            usernameInput.focus();
+            updateContentPanel('dashboard');
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && workspacePage.classList.contains('active') && !appModalOverlay
+                    .classList.contains('show') && !templateModalOverlay.classList.contains('show')) {
+                    if (confirm('确定要退出登录吗？')) {
+                        workspacePage.classList.remove('active');
+                        loginPage.style.display = 'flex';
+                        usernameInput.focus();
+                        navMenu.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+                        navMenu.querySelector('a[data-page="dashboard"]').classList.add('active');
+                        sidebar.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove(
+                            'active'));
+                        sidebar.querySelector('.sidebar-item[data-sub="overview"]').classList.add(
+                            'active');
+                        updateContentPanel('dashboard');
+                    }
+                }
+            });
+
+            console.log('🚀 善器物联数智化赋能平台已就绪');
+            console.log('📋 演示账号：admin / admin123');
+            console.log('📱 应用管理：支持卡片式清单、新增/编辑/删除、图标颜色选择、模版管理、筛选');
+            console.log('⌨️  按 Esc 键可退出登录');
+        })();
+    </script>
+</body>
+</html>
